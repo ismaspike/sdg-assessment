@@ -7,7 +7,7 @@ const Continents = () => {
     fetchContinentsList();
   }, []);
 
-  return <div className="phones-list">It works!</div>;
+  return <div className="continents">It works!</div>;
 };
 
 export default Continents;

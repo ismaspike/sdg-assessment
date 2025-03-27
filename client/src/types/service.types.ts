@@ -1,16 +1,16 @@
 export interface ICountryResponse {
   region: string;
-  population: string;
+  population: number;
 }
 
 export interface ICountryByRegionResponse {
   name: {
     common: string;
   };
-  population: string;
+  population: number;
 }
 
 export interface IItemsDataAdapted {
   name: string;
-  population: string;
+  population: number;
 }

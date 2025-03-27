@@ -39,8 +39,8 @@ const App = () => {
               {Object.values(ContinentsList).map((continent) => (
                 <Route
                   key={continent}
-                  path={continent}
-                  element={<ChartPage continent={continent} />}
+                  path={continent.toLowerCase()}
+                  element={<ChartPage continent={continent.toLowerCase()} />}
                 />
               ))}
             </Routes>

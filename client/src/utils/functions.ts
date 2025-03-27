@@ -37,3 +37,24 @@ export const adaptCountriesList = (
     };
   });
 };
+
+export const adaptItemsDataToBarChart = (itemsData: IItemsDataAdapted[]) => {
+  const labels: string[] = [];
+  const data: number[] = [];
+  itemsData.forEach((item) => {
+    labels.push(item.name);
+    data.push(item.population);
+  });
+  return {
+    labels,
+    datasets: [
+      {
+        data,
+        label: 'Population',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+};

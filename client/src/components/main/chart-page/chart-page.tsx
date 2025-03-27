@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDataListContext } from '../../../context';
 import { IChartPageProps } from './chart-page.types';
 import { IItemsDataAdapted } from '../../../types/service.types';
+import BarChart from '../../common/bar-chart/bar-chart';
+import { adaptItemsDataToBarChart } from '../../../utils/functions';
 
 const ChartPage = (props: IChartPageProps) => {
   const {
@@ -15,27 +17,33 @@ const ChartPage = (props: IChartPageProps) => {
 
   useEffect(() => {
     if (continent) {
-      fetchCountriesList(continent.toLowerCase());
+      if (!countriesList[continent]) {
+        fetchCountriesList(continent.toLowerCase());
+      }
     } else {
       fetchContinentsList();
     }
   }, [continent]);
 
-  const chartRender = (data: IItemsDataAdapted[]) => (
-    <ul>
-      {data.map((item) => (
-        <li>{item.name}</li>
-      ))}
-    </ul>
-  );
+  useEffect(() => {
+    console.log(countriesList);
+  }, [countriesList]);
 
   return (
     <div className="chart-page">
       <h3>Population chart of {continent || 'all the continents'}</h3>
       {loading ? (
         <div>Loader</div>
+      ) : Boolean(
+          continent ? countriesList[continent.toLowerCase()] : continentsList
+        ) ? (
+        <BarChart
+          data={adaptItemsDataToBarChart(
+            continent ? countriesList[continent] : continentsList
+          )}
+        ></BarChart>
       ) : (
-        chartRender(continent ? countriesList : continentsList)
+        <></>
       )}
     </div>
   );

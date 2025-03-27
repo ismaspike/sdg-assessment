@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import { IDataListContext } from './types/context.types';
+import { ICountriesListType, IDataListContext } from './types/context.types';
 import {
   ICountryByRegionResponse,
   ICountryResponse,
@@ -10,7 +10,7 @@ import { adaptContinentsList, adaptCountriesList } from './utils/functions';
 // MOBILE LIST API CONTEXT
 const DataListContext = createContext<IDataListContext>({
   continentsList: [],
-  countriesList: [],
+  countriesList: {},
   loading: true,
   fetchContinentsList: undefined,
   fetchCountriesList: undefined
@@ -18,7 +18,7 @@ const DataListContext = createContext<IDataListContext>({
 
 export const DataListProvider = ({ children }) => {
   const [continentsList, setContinentsList] = useState<IItemsDataAdapted[]>([]);
-  const [countriesList, setCountriesList] = useState<IItemsDataAdapted[]>([]);
+  const [countriesList, setCountriesList] = useState<ICountriesListType>({});
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchContinentsList = async () => {
@@ -41,7 +41,10 @@ export const DataListProvider = ({ children }) => {
         `http://localhost:3001/countries?continent=${continent}`
       );
       const data: ICountryByRegionResponse[] = await response.json();
-      setCountriesList(adaptCountriesList(data));
+      setCountriesList({
+        ...countriesList,
+        [continent]: adaptCountriesList(data)
+      });
     } catch (error) {
       console.error('Error fetching countries list:', error);
     } finally {

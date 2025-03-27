@@ -1,5 +1,5 @@
 export enum ContinentsList {
-  ANTARTIC = 'Antartic',
+  ANTARCTIC = 'Antarctic',
   AMERICAS = 'Americas',
   EUROPE = 'Europe',
   AFRICA = 'Africa',

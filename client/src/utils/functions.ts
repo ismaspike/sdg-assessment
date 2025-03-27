@@ -20,7 +20,7 @@ export const adaptContinentsList = (
     } else {
       dataReturn[dataIndex] = {
         ...dataReturn[dataIndex],
-        population: item.population + dataReturn[dataIndex]
+        population: item.population + dataReturn[dataIndex].population
       };
     }
   });
@@ -32,7 +32,7 @@ export const adaptCountriesList = (
 ): IItemsDataAdapted[] => {
   return data.map((item) => {
     return {
-      name: `${item.flag} ${item.name.common}`,
+      name: `${item.name.common}`,
       population: item.population
     };
   });

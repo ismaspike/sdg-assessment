@@ -8,13 +8,17 @@ import {
 } from 'react-router-dom';
 import { ContinentsList } from './types/common.types';
 import { RoutePaths } from './types/routes.types';
-import Continents from './components/main/continents/continents';
+import Header from './components/main/header/header';
+import ChartPage from './components/main/chart-page/chart-page';
 
 const App = () => {
   return (
     <div className="app">
       <DataListProvider>
         <Router>
+          <div className="header-container">
+            <Header />
+          </div>
           <div className="content-container">
             <Routes>
               <Route
@@ -30,13 +34,13 @@ const App = () => {
               <Route
                 key={RoutePaths.CONTINENTS}
                 path={RoutePaths.CONTINENTS}
-                element={<Continents />}
+                element={<ChartPage />}
               />
               {Object.values(ContinentsList).map((continent) => (
                 <Route
                   key={continent}
                   path={continent}
-                  element={<Continents />}
+                  element={<ChartPage continent={continent} />}
                 />
               ))}
             </Routes>

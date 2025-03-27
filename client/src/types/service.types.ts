@@ -8,7 +8,6 @@ export interface ICountryByRegionResponse {
     common: string;
   };
   population: string;
-  flag: string;
 }
 
 export interface IItemsDataAdapted {

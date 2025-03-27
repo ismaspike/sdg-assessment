@@ -19,7 +19,14 @@ $main-font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
 $page-margin-desktop: 100px;
 $page-margin-mobile: 16px;
 
+// Custom header sizes
+$main-logo-width: 74px;
+
 // Colors
+$main-color-black: #000000;
+$main-color-white: #ffffff;
+$main-color-softblue: lightblue;
+$main-color-light: rgba(#cccccc, 0.3);
 
 // Fonts
 $default-p-size: $size3;

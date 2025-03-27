@@ -6,12 +6,12 @@
 }
 
 .content-container {
-  margin: 0 $page-margin-desktop;
-  margin-bottom: $size13;
+  margin: $size8 $page-margin-desktop;
   height: 100%;
 
   @include respond-to(small) {
     margin: 0 $page-margin-mobile;
+    margin-top: $size6;
     margin-bottom: $page-margin-mobile;
   }
 }
@@ -43,4 +43,8 @@ h4 {
   font-size: 14px;
   font-weight: 300;
   margin: 0;
+}
+
+.--capitalize {
+  text-transform: capitalize !important;
 }

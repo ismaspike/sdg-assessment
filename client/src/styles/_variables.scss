@@ -1,6 +1,7 @@
 // Main variables
 $size1: 4px;
 $size2: 8px;
+$size2-3: 10px;
 $size3: 12px;
 $size4: 16px;
 $size5: 20px;
@@ -14,6 +15,8 @@ $size12: 48px;
 $size13: 52px;
 $size14: 56px;
 $main-font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+$component-custom-button-min-width-desktop: 260px;
+$component-bar-chart-height: 500px;
 
 // Custom main sizes
 $page-margin-desktop: 100px;
@@ -26,7 +29,10 @@ $main-logo-width: 74px;
 $main-color-black: #000000;
 $main-color-white: #ffffff;
 $main-color-softblue: lightblue;
+$main-color-grey: #cccccc;
 $main-color-light: rgba(#cccccc, 0.3);
+$main-color-soft-grey: #f3f2f2;
+$main-color-strong-grey: #c2bfbc;
 
 // Fonts
 $default-p-size: $size3;

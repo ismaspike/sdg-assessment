@@ -76,7 +76,7 @@ const Header = () => {
                   key={continent}
                   className="header__dropdown-item"
                   onClick={() => {
-                    goTo(`/${continent}`);
+                    goTo(`/${continent.toLowerCase()}`);
                     setIsDropdownVisible(false); // Close dropdown after selecting a continent
                   }}
                 >

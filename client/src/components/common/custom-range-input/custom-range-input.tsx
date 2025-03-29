@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from 'react';
+import {
+  ICustomRangeInputProps,
+  IOnChangeEventProps
+} from './custom-range-input.types';
 
-const CustomRangeInput = ({ min, max, onChange }) => {
-  const initialMinPrice = 0;
-  const initialMaxPrice = 1000;
+const CustomRangeInput = (props: ICustomRangeInputProps) => {
+  const { min, max, onChange, reload } = props;
 
-  const [sliderMinValue] = useState(initialMinPrice);
-  const [sliderMaxValue] = useState(initialMaxPrice);
-
-  const [minVal, setMinVal] = useState(initialMinPrice);
-  const [maxVal, setMaxVal] = useState(initialMaxPrice);
-  const [minInput, setMinInput] = useState(initialMinPrice);
-  const [maxInput, setMaxInput] = useState(initialMaxPrice);
+  const [minVal, setMinVal] = useState(min);
+  const [maxVal, setMaxVal] = useState(max);
+  const [minInput, setMinInput] = useState(min);
+  const [maxInput, setMaxInput] = useState(max);
 
   const [isDragging, setIsDragging] = useState(false);
 
   const minGap = 5;
 
+  // Función para emitir el evento onChange
+  const emitChange = (data: IOnChangeEventProps) => {
+    if (onChange) {
+      onChange(data);
+    }
+  };
+
   const slideMin = (e) => {
     const value = parseInt(e.target.value, 10);
-    if (value >= sliderMinValue && maxVal - value >= minGap) {
+    if (value >= min && maxVal - value >= minGap) {
       setMinVal(value);
       setMinInput(value);
+      emitChange({ min: value, max: maxVal }); // Emitir el evento cuando el valor cambie
     }
   };
 
   const slideMax = (e) => {
     const value = parseInt(e.target.value, 10);
-    if (value <= sliderMaxValue && value - minVal >= minGap) {
+    if (value <= max && value - minVal >= minGap) {
       setMaxVal(value);
       setMaxInput(value);
+      emitChange({ min: minVal, max: value }); // Emitir el evento cuando el valor cambie
     }
   };
 
@@ -36,10 +45,8 @@ const CustomRangeInput = ({ min, max, onChange }) => {
     const range = document.querySelector('.slider-track');
 
     if (range) {
-      const minPercent =
-        ((minVal - sliderMinValue) / (sliderMaxValue - sliderMinValue)) * 100;
-      const maxPercent =
-        ((maxVal - sliderMinValue) / (sliderMaxValue - sliderMinValue)) * 100;
+      const minPercent = ((minVal - min) / (max - min)) * 100;
+      const maxPercent = ((maxVal - min) / (max - min)) * 100;
 
       (range as any).style.left = `${minPercent}%`;
       (range as any).style.right = `${100 - maxPercent}%`;
@@ -47,42 +54,45 @@ const CustomRangeInput = ({ min, max, onChange }) => {
   };
 
   useEffect(() => {
+    if (reload) {
+      setMinVal(min);
+      setMaxVal(max);
+      setMinInput(min);
+      setMaxInput(max);
+    }
+  }, [reload]);
+
+  useEffect(() => {
     setSliderTrack();
   }, [minVal, maxVal]);
 
   const handleMinInput = (e) => {
-    const value =
-      e.target.value === '' ? sliderMinValue : parseInt(e.target.value, 10);
-    if (value >= sliderMinValue && value < maxVal - minGap) {
+    const value = e.target.value === '' ? min : parseInt(e.target.value, 10);
+    if (value >= min && value < maxVal - minGap) {
       setMinInput(value);
       setMinVal(value);
+      emitChange({ min: value, max: maxVal }); // Emitir el evento cuando el valor cambie
     }
   };
 
   const handleMaxInput = (e) => {
-    const value =
-      e.target.value === '' ? sliderMaxValue : parseInt(e.target.value, 10);
-    if (value <= sliderMaxValue && value > minVal + minGap) {
+    const value = e.target.value === '' ? max : parseInt(e.target.value, 10);
+    if (value <= max && value > minVal + minGap) {
       setMaxInput(value);
       setMaxVal(value);
+      emitChange({ min: minVal, max: value }); // Emitir el evento cuando el valor cambie
     }
   };
 
   const handleInputKeyDown = (e, type) => {
     if (e.key === 'Enter') {
       const value = parseInt(e.target.value, 10);
-      if (
-        type === 'min' &&
-        value >= sliderMinValue &&
-        value < maxVal - minGap
-      ) {
+      if (type === 'min' && value >= min && value < maxVal - minGap) {
         setMinVal(value);
-      } else if (
-        type === 'max' &&
-        value <= sliderMaxValue &&
-        value > minVal + minGap
-      ) {
+        emitChange({ min: value, max: maxVal }); // Emitir el evento cuando el valor cambie
+      } else if (type === 'max' && value <= max && value > minVal + minGap) {
         setMaxVal(value);
+        emitChange({ min: minVal, max: value }); // Emitir el evento cuando el valor cambie
       }
     }
   };
@@ -96,59 +106,63 @@ const CustomRangeInput = ({ min, max, onChange }) => {
   };
 
   return (
-    <div className="double-slider-box">
-      <div className="input-box">
-        <div className="min-box">
+    <div className="custom-range-input">
+      <div className="custom-range-input__input-container">
+        <div className="custom-range-input__min-input-container">
           <input
             type="number"
             value={minInput}
             onChange={handleMinInput}
             onKeyDown={(e) => handleInputKeyDown(e, 'min')}
-            className="min-input"
-            min={sliderMinValue}
+            className="custom-range-input__min-input"
+            min={min}
             max={maxVal - minGap}
           />
         </div>
-        <div className="max-box">
+        <div className="custom-range-input__max-input-container">
           <input
             type="number"
             value={maxInput}
             onChange={handleMaxInput}
             onKeyDown={(e) => handleInputKeyDown(e, 'max')}
-            className="max-input"
+            className="custom-range-input__max-input"
             min={minVal + minGap}
-            max={sliderMaxValue}
+            max={max}
           />
         </div>
       </div>
-      <div className="range-slider">
-        <div className="slider-track"></div>
+      <div className="custom-range-input__range-container">
+        <div className="custom-range-input__slider-track"></div>
         <input
           type="range"
-          min={sliderMinValue}
-          max={sliderMaxValue}
+          min={min}
+          max={max}
           value={minVal}
           onChange={slideMin}
           onMouseDown={startDrag}
           onMouseUp={stopDrag}
           onTouchStart={startDrag}
           onTouchEnd={stopDrag}
-          className="min-val"
+          className="custom-range-input__min-range"
         />
         <input
           type="range"
-          min={sliderMinValue}
-          max={sliderMaxValue}
+          min={min}
+          max={max}
           value={maxVal}
           onChange={slideMax}
           onMouseDown={startDrag}
           onMouseUp={stopDrag}
           onTouchStart={startDrag}
           onTouchEnd={stopDrag}
-          className="max-val"
+          className="custom-range-input__max-range"
         />
-        {isDragging && <div className="min-tooltip">{minVal}</div>}
-        {isDragging && <div className="max-tooltip">{maxVal}</div>}
+        {isDragging && (
+          <div className="custom-range-input__min-tooltip">{minVal}</div>
+        )}
+        {isDragging && (
+          <div className="custom-range-input__max-tooltip">{maxVal}</div>
+        )}
       </div>
     </div>
   );

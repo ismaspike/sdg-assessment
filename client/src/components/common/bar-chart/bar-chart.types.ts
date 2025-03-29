@@ -18,10 +18,6 @@ export const barChartOptions = (numberLabels: boolean) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      title: {
-        display: true,
-        text: 'Gráfico de Ventas'
-      },
       // Configuración del plugin datalabels
       datalabels: {
         enabled: false,

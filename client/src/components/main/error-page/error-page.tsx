@@ -1,10 +1,8 @@
 import CustomButton from '../../common/custom-button/custom-button';
 import { IErrorPageProps } from './error.types';
-import { useNavigate } from 'react-router-dom';
 
 const ErrorPage = (props: IErrorPageProps) => {
   const { errorTitle, errorSubtitle, recallAction, recallParams } = props;
-  const navigate = useNavigate();
 
   const handleReload = () => {
     if (recallParams) {

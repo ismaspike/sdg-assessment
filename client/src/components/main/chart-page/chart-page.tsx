@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDataListContext } from '../../../context';
 import { IChartPageProps } from './chart-page.types';
 import { IItemsDataAdapted } from '../../../types/service.types';
@@ -8,7 +8,6 @@ import CustomButton from '../../common/custom-button/custom-button';
 import CustomRangeInput from '../../common/custom-range-input/custom-range-input';
 import { IOnChangeEventProps } from '../../common/custom-range-input/custom-range-input.types';
 import ErrorPage from '../error-page/error-page';
-import { RoutePaths } from '../../../types/routes.types';
 import Loader from '../../common/loader/loader';
 
 const ChartPage = (props: IChartPageProps) => {
@@ -37,12 +36,14 @@ const ChartPage = (props: IChartPageProps) => {
     } else {
       fetchContinentsList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [continent]);
 
   useEffect(() => {
     if (checkIfPageLoaded()) {
       handleReloadRangeInput();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   const checkIfPageLoaded = () => {
@@ -90,6 +91,7 @@ const ChartPage = (props: IChartPageProps) => {
         item.population >= populationFilters.min &&
         item.population <= populationFilters.max
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [continent, countriesList, continentsList, populationFilters]);
 
   return (

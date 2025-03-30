@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { RoutePaths } from '../../../types/routes.types';
 import { ContinentsList } from '../../../types/common.types';
 import { useState, useEffect, useRef } from 'react';
-import { useDataListContext } from '../../../context';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -10,7 +9,6 @@ const Header = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLSpanElement | null>(null);
-  const { continentsList } = useDataListContext();
   const goTo = (url: string) => {
     navigate(url);
   };

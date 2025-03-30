@@ -1,0 +1,29 @@
+.error-page {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  &__content {
+    margin-left: $size12;
+  }
+
+  &__image {
+    margin-right: $size12;
+  }
+  &__title,
+  &__subtitle,
+  &__button-text {
+    text-align: center;
+  }
+  &__title {
+    margin-bottom: $size3;
+  }
+
+  &__subtitle {
+    margin-bottom: $size4;
+  }
+
+  &__button-text {
+    margin-bottom: $size2;
+  }
+}

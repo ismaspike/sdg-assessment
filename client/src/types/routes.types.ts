@@ -1,5 +1,6 @@
 export enum RoutePaths {
   NOT_FOUND = '*',
   DEFAULT = '/?',
-  CONTINENTS = '/continents'
+  CONTINENTS = '/continents',
+  ERROR = '/error'
 }

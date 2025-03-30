@@ -10,4 +10,5 @@ export interface IDataListContext {
   loading: boolean;
   fetchContinentsList: () => Promise<void>;
   fetchCountriesList: (region: string) => Promise<void>;
+  error: string;
 }

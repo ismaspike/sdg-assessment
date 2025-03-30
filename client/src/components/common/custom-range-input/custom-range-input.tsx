@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   ICustomRangeInputProps,
   IOnChangeEventProps
@@ -16,7 +16,9 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
 
   const minGap = 5;
 
-  // Función para emitir el evento onChange
+  const sliderTrackRef = useRef<HTMLDivElement>(null);
+
+  // Function to emit onChange event
   const emitChange = (data: IOnChangeEventProps) => {
     if (onChange) {
       onChange(data);
@@ -28,7 +30,7 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
     if (value >= min && maxVal - value >= minGap) {
       setMinVal(value);
       setMinInput(value);
-      emitChange({ min: value, max: maxVal }); // Emitir el evento cuando el valor cambie
+      emitChange({ min: value, max: maxVal });
     }
   };
 
@@ -37,19 +39,18 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
     if (value <= max && value - minVal >= minGap) {
       setMaxVal(value);
       setMaxInput(value);
-      emitChange({ min: minVal, max: value }); // Emitir el evento cuando el valor cambie
+      emitChange({ min: minVal, max: value });
     }
   };
 
   const setSliderTrack = () => {
-    const range = document.querySelector('.slider-track');
-
-    if (range) {
+    if (sliderTrackRef.current) {
       const minPercent = ((minVal - min) / (max - min)) * 100;
       const maxPercent = ((maxVal - min) / (max - min)) * 100;
 
-      (range as any).style.left = `${minPercent}%`;
-      (range as any).style.right = `${100 - maxPercent}%`;
+      // Dynamic adjust bar size for styling
+      sliderTrackRef.current.style.left = `${minPercent}%`;
+      sliderTrackRef.current.style.right = `${100 - maxPercent}%`;
     }
   };
 
@@ -71,7 +72,7 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
     if (value >= min && value < maxVal - minGap) {
       setMinInput(value);
       setMinVal(value);
-      emitChange({ min: value, max: maxVal }); // Emitir el evento cuando el valor cambie
+      emitChange({ min: value, max: maxVal });
     }
   };
 
@@ -80,7 +81,7 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
     if (value <= max && value > minVal + minGap) {
       setMaxInput(value);
       setMaxVal(value);
-      emitChange({ min: minVal, max: value }); // Emitir el evento cuando el valor cambie
+      emitChange({ min: minVal, max: value });
     }
   };
 
@@ -89,10 +90,10 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
       const value = parseInt(e.target.value, 10);
       if (type === 'min' && value >= min && value < maxVal - minGap) {
         setMinVal(value);
-        emitChange({ min: value, max: maxVal }); // Emitir el evento cuando el valor cambie
+        emitChange({ min: value, max: maxVal });
       } else if (type === 'max' && value <= max && value > minVal + minGap) {
         setMaxVal(value);
-        emitChange({ min: minVal, max: value }); // Emitir el evento cuando el valor cambie
+        emitChange({ min: minVal, max: value });
       }
     }
   };
@@ -132,7 +133,10 @@ const CustomRangeInput = (props: ICustomRangeInputProps) => {
         </div>
       </div>
       <div className="custom-range-input__range-container">
-        <div className="custom-range-input__slider-track"></div>
+        <div
+          ref={sliderTrackRef}
+          className="custom-range-input__slider-track"
+        ></div>
         <input
           type="range"
           min={min}

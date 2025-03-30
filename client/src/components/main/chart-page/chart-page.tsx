@@ -7,6 +7,9 @@ import { adaptItemsDataToBarChart } from '../../../utils/functions';
 import CustomButton from '../../common/custom-button/custom-button';
 import CustomRangeInput from '../../common/custom-range-input/custom-range-input';
 import { IOnChangeEventProps } from '../../common/custom-range-input/custom-range-input.types';
+import ErrorPage from '../error-page/error-page';
+import { RoutePaths } from '../../../types/routes.types';
+import Loader from '../../common/loader/loader';
 
 const ChartPage = (props: IChartPageProps) => {
   const {
@@ -14,7 +17,8 @@ const ChartPage = (props: IChartPageProps) => {
     fetchCountriesList,
     continentsList,
     countriesList,
-    loading
+    loading,
+    error
   } = useDataListContext();
   const { continent } = props;
   const [populationBounds, setPopulationBounds] = useState<IOnChangeEventProps>(
@@ -90,9 +94,18 @@ const ChartPage = (props: IChartPageProps) => {
 
   return (
     <div className="chart-page">
-      <h1>Population chart of {continent || 'all the continents'}</h1>
+      <h1 className={`chart-page__title${error ? ' --dnone' : ''}`}>
+        Population chart of{' '}
+        {continent ? (
+          <span className="--capitalize">{continent}</span>
+        ) : (
+          'the continents'
+        )}
+      </h1>
       {loading ? (
-        <div>Loader</div>
+        <div className="chart-page__loader">
+          <Loader />
+        </div>
       ) : Boolean(checkIfPageLoaded()) ? (
         <>
           <div className="chart-page__bar-chart">
@@ -110,14 +123,19 @@ const ChartPage = (props: IChartPageProps) => {
             <CustomButton
               onButtonPressed={handleReloadRangeInput}
               type="white"
-              text="RELOAD INPUT"
+              text="RELOAD RANGE"
               disabled={false}
               testId="continue-shopping-button"
             />
           </div>
         </>
       ) : (
-        <></>
+        <ErrorPage
+          errorTitle={error}
+          errorSubtitle={`Error while loading ${continent ? `${continent} countries` : 'continents'}`}
+          recallAction={continent ? fetchCountriesList : fetchContinentsList}
+          recallParams={continent ? continent : undefined}
+        />
       )}
     </div>
   );

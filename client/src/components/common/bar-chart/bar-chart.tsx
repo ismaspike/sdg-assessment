@@ -12,7 +12,7 @@ import {
 import { barChartOptions, IBarChartProps } from './bar-chart.types';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// Registrar los componentes de Chart.js que vamos a usar
+// Register ChartJS modules
 ChartJS.register(
   CategoryScale,
   LinearScale,

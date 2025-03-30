@@ -11,6 +11,18 @@
     width: 500px;
 
     @include respond-to(small) {
+      margin-top: $size8;
+      width: 100%;
+    }
+  }
+
+  &__loader,
+  &__bar-chart {
+    margin-top: $size4;
+  }
+
+  &__custom-button {
+    @include respond-to(small) {
       width: 100%;
     }
   }

@@ -15,10 +15,9 @@ const Header = () => {
     navigate(url);
   };
 
-  // Cerrar dropdown al hacer click fuera del contenedor
+  // Close dropdown when click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Si el clic fue fuera del dropdown y el botón de 'Countries', cerramos el dropdown
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node) &&
@@ -61,9 +60,9 @@ const Header = () => {
           </button>
           <div className="header__dropdown-switch">
             <span
-              ref={buttonRef} // Asignamos el ref al botón
+              ref={buttonRef}
               className={`header__link${!location.pathname.includes(RoutePaths.CONTINENTS) ? ' --active' : ''}`}
-              onClick={() => setIsDropdownVisible(!isDropdownVisible)} // Toggle dropdown visibility
+              onClick={() => setIsDropdownVisible(!isDropdownVisible)}
             >
               Countries
             </span>
@@ -77,7 +76,7 @@ const Header = () => {
                   className="header__dropdown-item"
                   onClick={() => {
                     goTo(`/${continent.toLowerCase()}`);
-                    setIsDropdownVisible(false); // Close dropdown after selecting a continent
+                    setIsDropdownVisible(false);
                   }}
                 >
                   {continent}

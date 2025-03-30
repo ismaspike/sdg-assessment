@@ -18,16 +18,15 @@ export const barChartOptions = (numberLabels: boolean) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      // Configuración del plugin datalabels
       datalabels: {
         enabled: false,
-        align: 'end', // Alinea las etiquetas en la parte superior
-        anchor: 'end', // Ancla las etiquetas al final de la barra
-        color: '#000', // Color de las etiquetas
+        align: 'end',
+        anchor: 'end',
+        color: '#000',
         font: {
-          weight: 'bold' // Puedes modificar el estilo de la fuente
+          weight: 'bold'
         },
-        formatter: (value) => (numberLabels ? value : '') // Formatea el valor mostrado
+        formatter: (value) => (numberLabels ? value : '')
       }
     }
   };

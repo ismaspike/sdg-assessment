@@ -3,7 +3,7 @@ import { useDataListContext } from '../../../context';
 import { IChartPageProps } from './chart-page.types';
 import { IItemsDataAdapted } from '../../../types/service.types';
 import BarChart from '../../common/bar-chart/bar-chart';
-import { adaptItemsDataToBarChart } from '../../../utils/functions';
+import { adaptItemsDataToBarChart, capitalize } from '../../../utils/functions';
 import CustomButton from '../../common/custom-button/custom-button';
 import CustomRangeInput from '../../common/custom-range-input/custom-range-input';
 import { IOnChangeEventProps } from '../../common/custom-range-input/custom-range-input.types';
@@ -134,7 +134,7 @@ const ChartPage = (props: IChartPageProps) => {
       ) : (
         <ErrorPage
           errorTitle={error}
-          errorSubtitle={`Error while loading ${continent ? `${continent} countries` : 'continents'}`}
+          errorSubtitle={`Error while loading ${continent ? `${capitalize(continent)} countries` : 'continents'}`}
           recallAction={continent ? fetchCountriesList : fetchContinentsList}
           recallParams={continent ? continent : undefined}
         />

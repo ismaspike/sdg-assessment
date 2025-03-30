@@ -3,18 +3,33 @@
   display: flex;
   flex-direction: row;
 
+  @include respond-to(small) {
+    flex-direction: column;
+    width: 100%;
+  }
+
   &__content {
     margin-left: $size12;
+
+    @include respond-to(small) {
+      margin-top: $size8;
+      margin-left: initial;
+    }
   }
 
   &__image {
     margin-right: $size12;
+
+    @include respond-to(small) {
+      margin-right: initial;
+    }
   }
   &__title,
   &__subtitle,
   &__button-text {
     text-align: center;
   }
+
   &__title {
     margin-bottom: $size3;
   }
@@ -24,6 +39,6 @@
   }
 
   &__button-text {
-    margin-bottom: $size2;
+    margin-bottom: $size4;
   }
 }

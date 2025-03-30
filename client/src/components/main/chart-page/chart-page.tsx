@@ -34,7 +34,9 @@ const ChartPage = (props: IChartPageProps) => {
         fetchCountriesList(continent.toLowerCase());
       }
     } else {
-      fetchContinentsList();
+      if (!continentsList.length) {
+        fetchContinentsList();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [continent]);
@@ -60,26 +62,33 @@ const ChartPage = (props: IChartPageProps) => {
     const items: IItemsDataAdapted[] = continent
       ? countriesList[continent.toLowerCase()]
       : continentsList;
+    if (items) {
+      const minValue = items.reduce(
+        (acc, cur) => (cur.population < acc.population ? cur : acc),
+        items[0] || undefined
+      ).population;
+      const maxValue = items.reduce(
+        (acc, cur) => (cur.population > acc.population ? cur : acc),
+        items[0] || undefined
+      ).population;
 
-    const minValue = items.reduce(
-      (acc, cur) => (cur.population < acc.population ? cur : acc),
-      items[0] || undefined
-    ).population;
-    const maxValue = items.reduce(
-      (acc, cur) => (cur.population > acc.population ? cur : acc),
-      items[0] || undefined
-    ).population;
-
-    setPopulationBounds({
-      min: minValue,
-      max: maxValue
-    });
-    setPopulationFilters({
-      min: minValue,
-      max: maxValue
-    });
-    setReloadRangeInput(reloadRangeInput + 1);
+      setPopulationBounds({
+        min: minValue,
+        max: maxValue
+      });
+      setPopulationFilters({
+        min: minValue,
+        max: maxValue
+      });
+      setReloadRangeInput(reloadRangeInput + 1);
+    }
   };
+
+  useEffect(() => {
+    if (!loading) {
+      handleReloadRangeInput();
+    }
+  }, [continent]);
 
   const filteredItems = useMemo(() => {
     if (!checkIfPageLoaded()) {

@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { RoutePaths } from '../../../types/routes.types';
 import { ContinentsList } from '../../../types/common.types';
 import { useState, useEffect, useRef } from 'react';
+import { useDataListContext } from '../../../context';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -11,6 +12,15 @@ const Header = () => {
   const buttonRef = useRef<HTMLSpanElement | null>(null);
   const goTo = (url: string) => {
     navigate(url);
+  };
+  const { fetchContinentsList } = useDataListContext();
+
+  const handleLogoClick = () => {
+    if (location.pathname.includes(RoutePaths.CONTINENTS)) {
+      fetchContinentsList();
+    } else {
+      goTo(RoutePaths.CONTINENTS);
+    }
   };
 
   // Close dropdown when click outside
@@ -42,7 +52,7 @@ const Header = () => {
             alt="SDG logo"
             className="header__logo-img"
             onClick={() => {
-              goTo(RoutePaths.CONTINENTS);
+              handleLogoClick();
             }}
             data-testid="header-logo"
           />

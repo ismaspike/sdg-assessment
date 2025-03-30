@@ -30,7 +30,7 @@ const BarChart = (props: IBarChartProps) => {
     <div className="bar-chart">
       <Bar
         data={data}
-        options={barChartOptions(data.labels.length < 11) as any}
+        options={barChartOptions(data.labels.length < 15) as any}
       />
     </div>
   );

@@ -9,99 +9,25 @@ import CustomRangeInput from '../../common/custom-range-input/custom-range-input
 import { IOnChangeEventProps } from '../../common/custom-range-input/custom-range-input.types';
 import ErrorPage from '../error-page/error-page';
 import Loader from '../../common/loader/loader';
+import { useChartPageHooks } from './chart-page.hooks';
 
 const ChartPage = (props: IChartPageProps) => {
+  const { error, loading, fetchContinentsList, fetchCountriesList } =
+    useDataListContext();
+  const { continent } = props;
   const {
+    checkIfPageLoaded,
+    filteredItems,
+    populationBounds,
+    handleRangeInputHasChanged,
+    reloadRangeInput,
+    handleReloadRangeInput
+  } = useChartPageHooks({
     fetchContinentsList,
     fetchCountriesList,
-    continentsList,
-    countriesList,
-    loading,
-    error
-  } = useDataListContext();
-  const { continent } = props;
-  const [populationBounds, setPopulationBounds] = useState<IOnChangeEventProps>(
-    { min: 0, max: 0 }
-  );
-  const [reloadRangeInput, setReloadRangeInput] = useState<number>(0);
-
-  const [populationFilters, setPopulationFilters] =
-    useState<IOnChangeEventProps>({ min: 0, max: 0 });
-
-  useEffect(() => {
-    if (continent) {
-      if (!countriesList[continent]) {
-        fetchCountriesList(continent.toLowerCase());
-      }
-    } else {
-      if (!continentsList.length) {
-        fetchContinentsList();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [continent]);
-
-  useEffect(() => {
-    if (checkIfPageLoaded()) {
-      handleReloadRangeInput();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
-
-  const checkIfPageLoaded = () => {
-    return Boolean(
-      continent ? countriesList[continent.toLowerCase()] : continentsList.length
-    );
-  };
-
-  const handleRangeInputHasChanged = (data: IOnChangeEventProps) => {
-    setPopulationFilters(data);
-  };
-
-  const handleReloadRangeInput = () => {
-    const items: IItemsDataAdapted[] = continent
-      ? countriesList[continent.toLowerCase()]
-      : continentsList;
-    if (items) {
-      const minValue = items.reduce(
-        (acc, cur) => (cur.population < acc.population ? cur : acc),
-        items[0] || undefined
-      ).population;
-      const maxValue = items.reduce(
-        (acc, cur) => (cur.population > acc.population ? cur : acc),
-        items[0] || undefined
-      ).population;
-
-      setPopulationBounds({
-        min: minValue,
-        max: maxValue
-      });
-      setPopulationFilters({
-        min: minValue,
-        max: maxValue
-      });
-      setReloadRangeInput(reloadRangeInput + 1);
-    }
-  };
-
-  useEffect(() => {
-    if (!loading) {
-      handleReloadRangeInput();
-    }
-  }, [continent]);
-
-  const filteredItems = useMemo(() => {
-    if (!checkIfPageLoaded()) {
-      return [];
-    }
-    const data = continent ? countriesList[continent] : continentsList;
-    return data.filter(
-      (item) =>
-        item.population >= populationFilters.min &&
-        item.population <= populationFilters.max
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [continent, countriesList, continentsList, populationFilters]);
+    continent,
+    loading
+  });
 
   return (
     <div className="chart-page">

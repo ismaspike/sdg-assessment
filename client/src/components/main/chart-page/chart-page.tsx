@@ -1,12 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useDataListContext } from '../../../context';
 import { IChartPageProps } from './chart-page.types';
-import { IItemsDataAdapted } from '../../../types/service.types';
 import BarChart from '../../common/bar-chart/bar-chart';
 import { adaptItemsDataToBarChart, capitalize } from '../../../utils/functions';
 import CustomButton from '../../common/custom-button/custom-button';
 import CustomRangeInput from '../../common/custom-range-input/custom-range-input';
-import { IOnChangeEventProps } from '../../common/custom-range-input/custom-range-input.types';
 import ErrorPage from '../error-page/error-page';
 import Loader from '../../common/loader/loader';
 import { useChartPageHooks } from './chart-page.hooks';

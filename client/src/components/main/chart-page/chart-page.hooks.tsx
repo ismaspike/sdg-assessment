@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ICountriesListType } from '../../../types/context.types';
 import { IItemsDataAdapted } from '../../../types/service.types';
 import { IOnChangeEventProps } from '../../common/custom-range-input/custom-range-input.types';
 import { useDataListContext } from '../../../context';
